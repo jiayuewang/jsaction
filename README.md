@@ -11,11 +11,20 @@ and names of handlers for these events via a custom HTML attribute called
 Separately, JavaScript code registers event handlers with given names which need
 not be exposed globally. When an event occurs the name of the action is mapped
 to the corresponding handler which is executed.
-
+                                        
 Finally, JsAction uncouples event handling from actual implementations. Thus one
 may late load the implementations, while the app is always able to respond to
 user actions marked up through JsAction. This can help in greatly reducing page
 load time, in particular for server side rendered apps.
+
+JsAction是一个很小的事件委托库，它允许在将处理这个动作的JS中进行解耦DOM节点。
+
+添加事件处理程序的传统方法是获取对该节点的引用，然后将事件处理程序添加到该节点。 JsAction允许我们通过称为jsaction的自定义HTML属性在事件和这些事件的处理程序名称之间映射。
+
+另外，JavaScript代码使用不需要全局公开的给定名称注册事件处理程序。 发生事件时，操作的名称将映射到执行的相应处理程序。
+
+最后，JsAction将事件处理与实际实现分离。 因此，人们可能会延迟加载实现，而应用程序始终能够响应通过JsAction标记的用户操作。 这可以帮助大大减少页面加载时间，尤其是对于服务器端渲染的应用程序。
+JsAction
 
 ## Building
 
@@ -91,9 +100,11 @@ If an `eventType` is not specified, JsAction will assume `click`.
 const eventContract = new jsaction.EventContract();
 
 // Events will be handled for all elements under this container.
+// 所有元素的事件将针在此容器下被处理。
 eventContract.addContainer(document.getElementById('container'));
 
 // Register the event types we care about.
+// 注册事件类型
 eventContract.addEvent('click');
 eventContract.addEvent('dblclick');
 
@@ -131,6 +142,10 @@ page to capture events, and load the dispatcher and event handlers at a later
 time. Since captured events are queued until the dispatcher loads, this pattern
 can ensure that user events are not lost even if they happen before the primary
 event handlers load.
+
+JsAction将事件协议和调度程序分为两个可分别加载的事件二进制文件。 这使应用程序可以在早期加载小事件。
+页面以捕获事件，并在以后加载调度程序和事件处理程序时间。 由于捕获的事件将等待直到调度程序加载后才发生捕获，
+因此此模式可以确保即使在主事件之前发生主处理程序加载，用户事件也不会丢失。
 
 Visit http://jsfiddle.net/880m0tpd/4/ to try out a working example.
 
